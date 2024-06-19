@@ -1,0 +1,800 @@
+		Enterprise Programming 
+	---------------------------------------------
+
+
+Pre-Req: HTML, CSS, JS, XML and BOOTSTRAP
+Outcome:	i) To build web applications
+		    ii) RED HAT- Certificate.
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+C0-1:
+--------
+	~ JAVA DATABASE CONNECTIVITY.(JDBC)
+		- Introduction.
+		- Why JDBC?
+		- JDBC Drivers.
+		- JDBC Steps
+		- JDBC Classes.
+		- JDBC Interfaces.
+   		- JDBC Examples.
+		- JDBC Crud operations
+
+
+
+Introduction:
+--------------
+	- JDBC : Java Data BAse Connectivity
+	- JDBC is a JAVA API which allows java app to interact iwth the Database.
+
+	NOTE: Java API: Java API Consists of many packages where every packages consists of many classes and interfaces.Which helps Java Application to interact with Databases
+ 		Package-> java.sql.*
+		
+
+Why JDBC:
+----------
+	- JDBC is a fundamental tool for all JAVA developers to interact with the database.
+	- It is popular and most widely used because it is Platform inependent.
+	- Versatility.
+	
+	JAVA APP ------------ DATABASE
+		 (ODBC Drivers)
+	JAVA APP ------------- DATABASE
+		(JDBC Drivers)
+
+	Note: Use-Cases:
+		1. WEB APPLICATIONS.
+		2. Enterprise Application
+		3. Desktop Application.
+
+JDBC DRIVERS:
+--------------
+	- Helps to communicate with the java application
+	- There are about 4 Drivers:
+		i)  Type-1 Driver
+		ii) Type-2 Driver
+		iii) Type-3 Driver
+		iv) Type-4 Driver (We use in this )
+
+	~ Type-1:
+	---------
+		-It is also known as ODBC-JDBC drivers.
+		-It is useful to connect databases where only ODBC drivers are available 
+	~ Type-2:
+	---------
+		- It is also know as the Native API Driver.
+		- Suitable for applications where performance is critical.
+	~ Type-3:
+		- It is also known as network protocol drivers.
+		- Suitable for network enivironment where the client does not knows the requirement of the database
+	
+
+	~ Type-4 drivers :-
+		- it is also known as thin drivers.
+		- it is commonly used for all the applications due to the following reasons :-1) effiency 2) performance 3) ease of use  4) platform independent
+
+
+JDBC STEPS :
+----------------
+	-THERE ARE 7 steps to connect my JAVA APPLICATION TO A DATABASE USING JDBC DRIVERS
+			1) IMPORT PACKAGE
+			2) LOAD DRIVERS (MAINLY: THIN DRIVERS)
+			3) CONNECTION
+			4)Statements
+			5) create RESULTSET OBJECT
+			6) EXECUTE
+			7) CLOSE CONNECTION
+
+	EXAMPLE:
+	step1:
+		import java.sql.*
+		import java.sql.exception
+
+	step2:
+	loading drivers (2 types)
+		1) driver Object -----------
+		2)forName() method
+
+	syntax:-
+ 			1) Driver drv = new driverclass-path
+ 			DriverManager.registerDriver(drv)
+
+			2) Class.forName("driverclass-path")
+
+	step3:-
+	connection establishment
+	 		connection con  =  DriverManager.getConnection("database-path","username","pwd")
+
+	step-4:
+	 	Create Statement
+		Statement stmt = con.createStatement()
+
+	step-5: Create ResultSet Object
+		ResultSet rs = stmt.executeQuery("Only select")
+
+	step-6: Execute Queries
+		stmt.executeUpdate("queries other than select")
+
+	
+	step-7: Close the execution
+		con.close()
+
+Note: Connecting with the Databases
+	1.Oracle: 
+			driverclass: oracle.jdbc.driver.OracleDriver()
+			Connection jdbc:oracle:thin:@localhost:1524:xe
+			username: system
+			password: ---------
+	2. MyQL:
+	driveclass: com.mysql.jdbc.Driver
+	Connection: jdbc:mysql://localhost:3306/db 
+	username: root
+	password: ----------
+
+
+Example :
+--------- DB Connectivity (Driver Object) (oracle)
+
+		import java.sql.*;
+
+		class DBConnectivity
+		{
+			public static void main(Streing args[])
+			{
+				Driver drv = new oracle.jdbc.driver.OracleDriver();
+				DriverManager.registerDriver(drv);
+
+				Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","password");
+
+				if(con!=null)
+				{
+					System.out.println("Connection is Successful");
+				}
+				else
+				{
+					System.out.println("Connection is not successful");
+				}
+				Statement stmt = con.createStatement();
+				con.close()
+			}
+		}
+	---- DB Connectivity (oracle) using forName method:
+	import java.sql.*;
+
+		class DBConnectivity
+		{
+			public static void main(Streing args[])
+			{
+				class.forName("com.mysql.jdbc.Driver")
+				Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","password");
+
+				if(con!=null)
+				{
+					System.out.println("Connection is Successful");
+				}
+				else
+				{
+					System.out.println("Connection is not successful");
+				}
+				Statement stmt = con.createStatement();
+				con.close()
+			}
+		}
+
+-----DB Connectiviy using SQL:
+	import java.sql.*;
+
+		class DBConnectivity
+		{
+			public static void main(Streing args[])
+			{
+				Driver drv = new com.mysql.jdbc.Driver
+				DriverManager.registerDriver(drv);
+
+				Connection con = DriverManager.getConnection(" jdbc:mysql://localhost:3306/db ","root","password");
+
+				if(con!=null)
+				{
+					System.out.println("Connection is Successful");
+				}
+				else
+				{
+					System.out.println("Connection is not successful");
+				}
+				Statement stmt = con.createStatement();
+				con.close()
+			}
+		}
+
+
+
+JDBC Classes:
+-----------------
+	1.Driver DriverManager
+	2. Blob
+	3. Clob
+
+	--------------------------
+	 	i) Driver Manager:
+				- It acts as an interface between an user and a database.
+						Methods:
+						-------
+						a. registerDriver()
+						b. deregisterDriver()
+						c. getConnection()
+
+							a.registerDriver():
+							----------------------
+								- It is used to load the Drivers.
+								Ex:
+								  Driver drv = new classDriver-path;
+								  DriverManager.registerDriver(drv);
+							b. deregisterDriver():
+							-----------------------------
+								- To remove the drivers which are recently loaded.
+								Ex:
+								DriverManager.deregisterDriver();
+							c. getConnection():
+							------------------------
+								- It is used to establish  a connection with the database.
+								ex: DriverManager.getConnection("dbpath","username","password");
+
+-----------
+Example-5: To demonstrate the DriverManager class:
+----------(example of 1 to 4 same)
+
+
+			ii) Blob:
+					- It is used to store and retrive an image from a database
+					- For store:
+						classname: FileInputStream
+						method: setBinaryStream()
+					- For Retrive:
+						classname : FileOutputStream
+						method: getBytes()
+------------
+Example-6: To store an image in the database
+
+	Example-6: To demonstrate Blob class (Store Image)
+		 (Oracle Database)
+ 		import java.io.*;
+ 		import java.sql.*;
+ 		public class StoreImage
+		 {
+ 		public static void main(String[] args) throws Exception
+		{
+ 		Class.forName("oracle.jdbc.driver.OracleDriver");
+ 		Connection con =
+		DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe",
+		"system", "admin");
+ 		Statement stmt = con.createStatement();
+ 		tmt.execute("create table imagetab(id NUMBER(5), name
+		VARCHAR(20),image BLOB)");
+ 		PreparedStatement ps = con.prepareStatement("insert into
+		imagetab
+
+		values(?, ?, ?)");
+		 ps.setInt(1, 111);
+ 		ps.setString(2, "ABC");
+ 		FileInputStream fis = new FileInputStream("C:\\Users\\ashesh\\OneDrive\\Desktop\\abc.png");
+ 		ps.setBinaryStream(3, fis, fis.available());
+ 		ps.execute();
+ 		System.out.println("Table Created and Image Inserted");
+ 		con.close();
+ 	}
+ 	}
+
+------------
+Example- 7: To retrive an image from the database
+------------
+			iii) Clob:
+					-------	
+					- it is used to store and retrive a file from the database.
+					- For store:
+						classname: FileReader
+						method: setCharacterStream()
+					- For Retrive:
+						classname : FileWriter
+						method: getCharacterStream()
+------------
+Example-8: To store a file in the database
+----------
+Example-9: To retrive a file from the database
+
+				Statement stmt = con.createStatement();
+ ResultSet rs = stmt.executeQuery("select * from imagetab");
+ if (rs.next()) 
+ {
+ int id = rs.getInt(1);
+ String name = rs.getString(2);
+ Blob b = rs.getBlob(3);
+ byte[] imageData = b.getBytes(1, (int) b.length());
+ FileOutputStream fos = new
+FileOutputStream("C:\\Users\\ashesh\\OneDrive\\Desktop\\ret_image.jpe
+g");
+ fos.write(imageData);
+ fos.close();
+ System.out.println("Image retrieved from database with ID: " + id
++ ", Name: " + name);
+ }
+ else {
+ System.out.println("No image found in the database.");
+ }
+ con.close();
+ }
+}
+
+----------
+
+
+----------------
+JDBC Interfaces:
+------------------
+	1.Driver
+	2. Connection
+	3. Statement
+	4. PreparedStatement
+	5. ResultSet
+	6. ResultSetMetaData
+	7. databaseMetaData
+	8. Callable
+
+		i) Driver:
+		----------
+			- It helps us to define the drivers that we want to load.
+
+			Ex: Driver drv = new classdriver-path;
+
+		ii) Connection:
+			- The point of the time which acts as a session between the database and java Application
+			-Methods:
+			----------
+					a. createStatement()
+					b. setAutoCommit()
+					c. commit()
+					d. rollback()
+					e. close()
+	Ex: a. Statement stmt = con.createStatement()
+		b. stmt.setAutoCommit()
+		c. stmt.commit()
+		d. stmt.rollback()
+		e. con.close()
+
+		iii) Statement:
+			-This interface consists of methods
+			Methods:
+			----------
+				a. executeQuery()
+					- Only for select the Query.
+				b. executeUpdate()
+					- All other queries can be executed by this method.
+
+					Ex: a. ResultSet rs = stmt.executeQuery("select query");
+						b. ResultSet rs = stmt.executeUpdate("Any Query");
+						 or smt.execute();
+
+				c.PreparedStatement():
+					- It is a sub interface of statement interface
+					Methods:
+					--------
+					a. setInt()
+					b. setString()
+					c. setFloat()
+					d. setDouble()
+					e. executeQuery()
+					d. executeUpdate()
+
+	Ex: PreparedStatement ps = con.PreparedStatement("query(?,?,?,?)")
+		ps.setInt(1,12345)
+		ps.setString(2,"ABC")
+		ps.setFloat(3,9.5)
+		ps.setDouble(4,200000)
+		ps.execute()
+
+		iv) ResultSet():
+		------
+			- it is an interface to retrieve data from the database
+			- it represents a set of rows, returned by a database query, maintained by the cursor pointing to the current row.
+			Methods:
+			-------
+				a. next()
+				b. previous()
+				c. first()
+				d. last()
+				e. getInt()
+				f. getFloat()
+
+				Ex: ResultSet rs = smt.executeQuery("SELECT ID FROM STUDENT");
+
+				a.rs.next()
+				b.rs.previous()
+				c.rs.last()
+				d. rs.last()
+				e. rs.getInt(1)
+				f. rs.getFloat(3)
+				g. rs.getDouble(4)
+			iv) ResultSetMetaData():
+			-------------------
+				- It refers to data within the data.
+				- we can get further info from the existing data.
+				Methods:
+				--------
+					a. getColumnCount()
+					b. getColumnName()
+					c. getColumnTypeName()
+					d. getTableName()
+
+				Ex:	 ResultSetMetaData rsmd = stmt.getMetaData()
+					rsmd.getColumnCount()
+					rsmd.getColumnName()
+					rsmd.getColumnTypeName()
+					rsmd.getTableName()
+
+			Vii) databaseMetaData():
+			---------------------------------
+				- It provides more info about database
+				-Methods:
+				---------
+					a.getDriverName()
+					b.getDriverVersion()
+					c.getDatabaseProductName()
+					e. getDatabaseProductVersion()
+
+				Ex: databaseMetaData dbmd = con.getMetaData()
+					dbmd .getDriverName()
+					bdbmd .getDriverVersion()
+					dbmd .getDatabaseProductName()
+					dbmd . getDatabaseProductVersion()
+
+			viii) Callable():
+			--------------
+				-This interface is used to call the functions or called procedures or Stored procedures
+				Methods:
+				------
+					a. prepareCall()
+					Here,
+
+					Syntax : Create procedures
+						CREATE or REPLACE PROCEDURE PROCEDURE_NAME
+						IS
+						BEGIN
+						QUERY;
+						END PROCEDURE_NAME;
+
+					Ex: PROCEDURE (INSERT)
+
+					CREATE or REPLACE PROCEDURE INSERT_EMP 
+					(edi IN NUMBER, ename IN VARCHAR, esal IN NUMBER)
+					IS
+					BEGIN
+					INSERT INTO employee VALUES(eid,ename,esal);
+					END INSERT_EMP;
+					
+
+
+--------------------------------------------------------------
+JDBC Examples:
+-------------------
+
+
+
+
+
+	Note:
+
+-------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+CO-2::
+		Servlet and JSP
+Servlet 
+----------------
+	- Introduction.
+	- Why Servlet
+	- Advantages of Servlet
+	- Servlet API
+	- Servlet lifecycle
+	- Servlet Examples ( 3 ways)
+	- Init Param and Context Param( Parameter)
+	- Servlet Database connectivity.
+	- Create an HTMl file with Servlet
+	- Servlet Chaining (Collabration)
+	
+	Introduction:
+	--------------
+		- Any application that runs on the web server and that can be accessed on the web sever, refers to the web application.
+		- Every web application that we design must be associated with the URL.
+		- Components of the web application are Client Side, Server Side and Databases.
+		- Client Side :
+				User Directly interacts with the web application.
+				HTML, CSS, JS etc..
+		- Server Side:
+				The entire application logic will be taken care here.
+				Python, Java, JavaScript, NodeJS.
+				Frameworks : Django, Spring, Express, Ruby
+				Database: SQL(Mysql,Oracle, Postgres) , NOSql (MongoDB, Dynamo, Neo4j, Cassendra .. etc).
+
+		Benefits of Web Applications:
+			Ease of Access, Cost Effective
+
+		Challenges of Web Application:
+			Performance,Security, Browser Compatibility
+		
+		Servlet :
+			- It is a technology which is used to create a web application.
+			- It is also defined in many ways as API consists of many classes and interfaces.
+					Also as an Web Component, that is deployed on a server side machine..
+					Also it is an interface, implemented to create a web application.
+		
+		-> Why Servlet?:
+		-------------
+						request(URL)
+			User ---------------------------->  web application
+											  	  (web server)
+		  Home page	<------------------------
+							response
+
+			CGI:
+				- Common Gateway interface
+				- User requests will be handled by process(os)
+			Servlet:
+				- User request will be handled by thread(OS).
+				Note: Threads execute much faster than the requests handled by process.
+
+		-> Advantages of the Servlet:
+		-------------------------
+			- Better Performance.
+			- Comparing to previous one this is much secure.
+			- It is more portable
+
+
+		-> Servlet API:
+		-----------
+			- This API consists of many classes and interfaces.
+			- All this classes and interfaces are available in the package : javax.servlet, javax.servlet.http
+			- Different Packages and Interfaces in this are	(javax.servlet)
+					Interfaces :1. Servlet
+								2. ServletRequest
+								3. RequestDispatcher
+					Classes:1. GenericServlet
+							2. ServletInputStream
+							3. ServletOutputStream
+
+					(javax.servlet.http)
+					Interfaces: 1. HttpServletRequest
+								2. HttpServletResponse
+								3. HttpSession
+					Classes :
+								1. HttpServlet
+								2. Cookie
+								3. HttpSessionEvent
+
+				Servlet interface:
+				-----------------
+						- It is a interface available in a package ( javax.servlet )
+
+						- It differs on the standard methods to be implemented and such methods are:
+
+									i) init()
+											- To initialize the servlet.
+									ii) service()
+											- To process the user requests
+									ii) destroy()
+											- to destroy the servlet
+									iv) getServletConfig()
+											- to get the servlet configuration.
+									v) getServeltInfo()
+											- to get the servlet information.
+
+					GenericServlet :
+					------------------
+						- It is a class which is available in the javax.servlet
+						- it is a class which implements the servlet interface.
+						- It provide all the methods of servlet interface except only method : service()
+									i) init()
+											- To initialize the servlet.
+									ii) destroy()
+											- to destroy the servlet
+									iv) getServletConfig()
+											- to get the servlet configuration.
+									v) getServeltInfo()
+											- to get the servlet information.
+									vi) getServletName()
+									vii) getServeltContext()
+									viii) getServeltParameter()
+					HttpServlet:
+					-------------
+						- It is in the package of javax.servelt.http
+						- It is class which extends the GenericServlet class, provided the Http specific methods.
+								Methods:
+									  1. service()
+									  2. doPost()
+									  3. doGet()
+									  4. doDelete()
+									  5. doTrace()
+									  6. doOptions()
+
+			-> Servlet lifecycle:
+			   --------------
+				5 Phases:
+					- Servlet class is loaded
+					- Servlet instance is Created
+					- Init() method is invoked
+					- Service() method is invoked
+					- Destroy() method is invoked
+				Example -1 :
+					Step-1: Create a maven project
+					Step-2: Delete index.JSP
+					Step-3: update the maven compiler 1.7 to 1.8 and dependencies of servlet API. in properties of ! (pom.xml).
+					Step-4: update maven project
+					Step-5: Build Java path
+					Step-6: Create a Package
+					Step-7: Create a class (.java)
+							   (logic)
+					Step-8: Servlet Configuration (web.xml)
+
+		-> Init Param and Context Param:
+		------------------------------------
+			- Init param and context param are used to store data in the database using the servlet.
+			- These param MUST be defined within the web.xml
+
+			Init- Param:
+			------------
+				- init param MUST be defined ti a specific servlet.
+				- scope of the init param with in a servlet.
+				Syntax:
+					<web-app>
+						<display-name>    </display-name>
+						<servlet>
+							<servlet-name>...</servlet-name>
+							<servlet-class>...</servlet-class>
+
+							<init-param>
+								<param-name>...</param-name>
+								<param-value>...</param-value>
+							</init-param>
+
+						</servlet>
+						<servlet-mapping>
+						<servlet-name>..</servlet-name>
+						<url-pattern>...</url-pattern>
+						
+						</servlet-mapping>
+					</web-app>
+				
+
+			Context-Param:
+			------------
+				- context param MUST be defined with entire application/project.
+				- scope of the context param is within a app/project
+
+				Syntax: web.xml!
+
+						<web-app>
+						<display-name>    </display-name>
+						<servlet>
+							<servlet-name>...</servlet-name>
+							<servlet-class>...</servlet-class>
+						</servlet>
+						<servlet>
+							<servlet-name>...</servlet-name>
+							<servlet-class>...</servlet-class>
+						</servlet>
+						<servlet>
+							<servlet-name>...</servlet-name>
+							<servlet-class>...</servlet-class>
+						</servlet>
+						<servlet-mapping>
+							<servlet-name>..</servlet-name>
+							<url-pattern>...</url-pattern>
+						</servlet-mapping>
+						<servlet-mapping>
+							<servlet-name>..</servlet-name>
+							<url-pattern>...</url-pattern>
+						</servlet-mapping>
+						<servlet-mapping>
+							<servlet-name>..</servlet-name>
+							<url-pattern>...</url-pattern>
+						</servlet-mapping>
+						<context-param>
+							<param-name>...</param-name>
+							<param-value>...</param-value>
+						</context-param>
+					</web-app>
+
+
+	JSP - Java Server Pages
+-------------------------------
+- Introduction
+- Why JSP
+- Advantages of JSP
+- JSP API
+- JSP lifecycle
+- JSP Elements
+- JSP Action Tags
+- JSP Implicit Objects
+- JSP Directives 
+- MVC Architecture
+
+----- 
+	Introduction:
+	-------------
+	- JSP stands for Java Server Pages
+	- It is a technology which is used to create a web application like Servlet (Dynamic web application)
+	- it is used to build a web application by inserting a java code in a html Document.
+	- It insert an Java code
+	- Syntax: index.JSP
+			<% java code %>  --- JSP Tags
+	 Why JSP :
+	------------
+		- In JSP execution is faster than the servlet
+		- It is much better than the CGI.
+	Advantages of JSP over the Servlet:
+	---------------------------------------
+		- Easy to maintain and build the web application.
+		- Less code compared to Servlet
+		- Rapid Development.
+	JSP API:
+	----------
+		- in order to create a web appliaction using JSP, we need to use the JSP classes and interfaces, which are available in a package named as the javax.servlet.jsp
+		- Some of the interfaces popular in JSP are:
+			-> 1. JspPage
+			-> 2. HttpJspPage
+		- Some of the popular classes in JSP are:
+			-> 1. JSPWriter
+			-> 2. JSPException
+			-> 3. JSPError
+			-> 4. JSPContent
+			-> 5. JspFactory
+
+		JspPage:
+		---------
+			- which extends servlet interface
+			 	Method:
+						jspInit()
+						jspDestroy()
+		HttpJspPage:
+		------------
+			- It is an interface which extends JspPageInterface
+			Methods: 
+				jspInit()
+				jspDestroy()
+				jspService()
+
+		JSP Life Cycle:
+		------------------
+		1. translation:
+			-jsp code will converted to servlet
+				index.jsp  --------> index.java
+		2. compilation:
+			- index.java ------------> index.class
+		3. loading class:
+			- index.class will be loaded
+		4. create instance:
+			- objects will create to class
+		5. initialization
+			- jspInit()
+		6. User Request
+			- jspService()
+		7. Destroy()
+			- jspDestroy()
+
+	Example:
+	-------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
